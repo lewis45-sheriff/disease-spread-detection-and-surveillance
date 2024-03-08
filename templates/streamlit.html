@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            box-sizing: border-box;
+            padding: 20px;
+        }
+
+        .prediction-container {
+            background-color: #fff;
+            border-radius: 5px;
+            padding: 20px;
+            max-width: 80%;
+            margin: 0 auto 20px;
+            text-align: center;
+        }
+
+        .streamlit-iframe {
+            width: 100%;
+            height: calc(100vh - 200px);
+            border: none;
+            margin-bottom: 20px;
+        }
+
+        .logout-btn {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+        }
+
+        .chat-container {
+            background-color: #fff;
+            border-radius: 5px;
+            padding: 20px;
+            max-width: 80%;
+            margin: 0 auto;
+        }
+
+        .chat-container h1 {
+            margin-top: 0;
+        }
+
+        .chat-container ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .chat-container ul li {
+            margin-bottom: 10px;
+        }
+
+        .chat-container form {
+            margin-top: 20px;
+        }
+
+        .chat-container textarea {
+            width: calc(100% - 70px);
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-sizing: border-box;
+            resize: none;
+        }
+
+        .chat-container button {
+            padding: 8px 15px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .chat-container button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Display prediction result -->
+        <div class="prediction-container">
+            <h2>Prediction Result:</h2>
+            <p>{{ prediction_message }}</p>
+        </div>
+        
+        <!-- Embed Streamlit app as an iframe -->
+        <iframe class="streamlit-iframe" src="http://localhost:8501"></iframe>
+        
+        <!-- Logout button -->
+        <form action="{% url 'logout' %}" method="get" class="logout-btn">
+            <button type="submit">Logout</button>
+        </form>
+
+        <!-- Chat interface -->
+        <div class="chat-container">
+            <h1>Chat with {{ receiver.username }}</h1>
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message.sender }}: {{ message.content }}</li>
+                {% endfor %}
+            </ul>
+            <form method="post">
+                {% csrf_token %}
+                <textarea name="content" placeholder="Type your message..."></textarea>
+                <button type="submit">Send</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

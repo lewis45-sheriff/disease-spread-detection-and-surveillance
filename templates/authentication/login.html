@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+       /* Style for the login paragraph */
+.login {
+    font-size: 24px;
+    color: #333;
+    text-align: center;
+    margin-top: 50px;
+}
+
+/* Style for the form */
+form {
+    margin-top: 20px;
+    width: 300px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: relative; /* Positioning relative to the container */
+}
+
+/* Style for form input fields */
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Style for the submit button */
+input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Style for the messages */
+.messages {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+.messages li {
+    margin-bottom: 10px;
+}
+
+.error {
+    color: red;
+}
+
+.success {
+    color: green;
+}
+
+/* Style for links */
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Centering container */
+.container {
+    text-align: center;
+}
+
+/* Positioning for the "Login as" dropdown */
+label[for="user_type"] {
+    position: absolute;
+    top: 20px; /* Adjust as needed */
+    right: 20px; /* Adjust as needed */
+}
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <p class="login">Login</p>
+
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    
+    <form method="post">
+        {% csrf_token %}
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password">
+
+        <label for="user_type">Login as:</label>
+        <select id="user_type" name="user_type">
+            <option value="healthcare_worker">Healthcare Worker</option>
+            <option value="admin">Admin</option>
+        </select>
+
+        <input type="submit" value="Submit">
+
+    </form>
+
+    <p>To register an account <a href="{% url 'register' %}">click here</a></p>
+    <p>Forgot Password?: <a href="{% url 'password_reset'%}">password_reset</a></p>
+</div>
+
+</body>
+</html>
